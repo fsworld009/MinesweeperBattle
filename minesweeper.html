@@ -1,0 +1,373 @@
+<html>
+<head>
+<title>踩地雷對戰單機版</title>
+<meta charset="UTF-8"> 
+<style type="text/css">
+   div.game_table {position:absolute; left:275px; top:50px; border-style: groove; border-color:black}
+   div.player1 {position:absolute; left:120; top:150; width:150; height:250; border-style: double; background-image:url("./image/bg_p1.png")}
+   div.player2 {position:absolute; left:705; top:150; width:150; height:250; border-style: double; background-image:url("./image/bg_p2.png")}
+   div.message {position:absolute; left:275; top:500; width:425}
+   div.setting {position:absolute; left:215; top:125; width:550; height:320; background-color:#CCFFCC; border-style: groove; border-color:#339999}
+   div.reset_button {position:absolute; left:275; top:550; width:425}
+   div.player1_arrow {position:absolute; left:125; top:50; width:140; height:90}
+   div.player2_arrow {position:absolute; left:710; top:50; width:140; height:90}
+   td.square {width:24; height:24}
+</style>
+
+</head>
+<body bgcolor="#006699">
+<div id="test"></div>
+<script text="text/javascript"> 
+	var TOTAL_MINES = 51;
+	var TOTAL_SQUARE_WIDTH = 16;
+	var TOTAL_SQUARE_HEIGHT = 16;
+
+
+		document.write("<div id=\"div_game_display\" class=\"game_table\">");
+		document.write("<table id=\"table_game_display\" bordercolor=black cellspacing=0 align=\"center\">");
+		for(i=0;i < TOTAL_SQUARE_WIDTH;i++){
+			document. write("<tr>");
+			for(j=0;j < TOTAL_SQUARE_HEIGHT;j++){
+				document.write("<td class=\"square\"><img src=image/unclick.png border=0></td>");
+				//document.write("<td width=24 height=24 class=\"square\"><a href=\"#\" onClick=\"ClickSquare(" + i + "," + j + ", 0)\">" + square_mine[i][j] + "</a></td>");
+			}
+		document.write("</tr>");
+		}
+		document.write("</table></div>");
+
+		document.write("<div id=\"div_game_click\" class=\"game_table\">");
+		document.write("<table id=\"table_game_click\" bordercolor=black cellspacing=0 align=\"center\">");
+		for(i=0;i < TOTAL_SQUARE_WIDTH;i++){
+			document. write("<tr>");
+			for(j=0;j < TOTAL_SQUARE_HEIGHT;j++){
+				document.write("<td class=\"square\"><img src=image/alpha.gif border=0></td>");
+			}
+		document.write("</tr>");
+		}
+		document.write("</table></div>");
+</script>
+
+<div id="player1" class="player1">
+	<br><br>
+	<p align=center>
+	<img name="player1_image" src="image/alpha.gif" width=80 height=80><br><br>
+	<span id="player1_name_dis"></span><br><br>
+	<img src=image/m_p1_dis.gif>:<span id="player1_score_dis">0</span><br>
+	<span id="player1_bomb"><img src="image/bomb_nouse.gif"></span>
+	</p>
+</div>
+
+<div id="player2" class="player2">
+	<br><br>
+	<p align=center>
+	<img name="player2_image" src="image/alpha.gif" width=80 height=80><br><br>
+	<span id="player2_name_dis"></span><br><br>
+	<img src=image/m_p2_dis.gif>:<span id="player2_score_dis">0</span><br>
+	<span id="player2_bomb"><img src="image/bomb_nouse.gif"></span>
+	</p>
+</div>
+
+<div id="player1_arrow" class="player1_arrow">
+<img name="p1_arrow_image" src="image/alpha.gif">
+</div>
+
+<div id="player2_arrow" class="player2_arrow">
+<img name="p2_arrow_image" src="image/alpha.gif">
+</div>
+
+<div id="message"  class="message" align="center">
+</div>
+
+<div id="reset_button"  class="reset_button" align="center" style="display:none">
+<input type="button" onclick="Reset()" value="重新開始">
+</div>
+
+<div id="setting" class="setting" align="center">
+	<br><h1><font color=red>遊戲設定</font></h1><br>
+	<form name="game_setting">
+	<table width=80%>
+	<tr align=center>
+		<td bgcolor="#FF3300">玩家1</td>
+		<td bgcolor="#3399FF">玩家2</td>
+	</tr>
+	<tr align=center>
+		<td bgcolor="#FF3300">名稱:<input type="text" name="player1_name" size=12 maxlength=6 value="玩家1"><br>
+		代表圖案:
+		<select name="player1_img">
+		  <option value="img01">牡羊</option>
+		  <option value="img02">公牛</option>
+		  <option value="img03">雙子</option>
+		  <option value="img04">巨蟹</option>
+		  <option value="img05">獅子</option>
+		  <option value="img06">處女</option>
+		  <option value="img07">天枰</option>
+		  <option value="img08">天蠍</option>
+		  <option value="img09">射手</option>
+		  <option value="img10">魔羯</option>
+		  <option value="img11">水瓶</option>
+		  <option value="img12">雙魚</option>
+		</select></td>
+		<td bgcolor="#3399FF">名稱:<input type="text" name="player2_name" size=12 maxlength=6 value="玩家2"><br>
+		代表圖案:<select name="player2_img">
+		  <option value="img01">牡羊</option>
+		  <option value="img02">公牛</option>
+		  <option value="img03">雙子</option>
+		  <option value="img04">巨蟹</option>
+		  <option value="img05">獅子</option>
+		  <option value="img06">處女</option>
+		  <option value="img07">天枰</option>
+		  <option value="img08">天蠍</option>
+		  <option value="img09">射手</option>
+		  <option value="img10">魔羯</option>
+		  <option value="img11">水瓶</option>
+		  <option value="img12">雙魚</option>
+		</select></td>
+	</tr>
+	</table>
+	<br><br>
+	<input type="button" onclick="Start()" value="開始遊戲"> <input type="button" onclick="window.close()" value="結束遊戲">
+	</form>
+</div>
+<script text="text/javascript">
+//initialize
+	var player_id;
+	var player1_score;
+	var player2_score;
+	var square_mine;
+	var square_checked;
+	var click_func;
+	var i, j, k;		//loop counter
+
+	//define squares 0=no mine, 1= mine
+	square_mine = new Array(TOTAL_SQUARE_WIDTH);
+	square_checked = new Array(TOTAL_SQUARE_WIDTH);
+	for(i=0; i < TOTAL_SQUARE_WIDTH;i++){
+		square_mine[i] = new Array(TOTAL_SQUARE_HEIGHT);
+		square_checked[i] = new Array(TOTAL_SQUARE_HEIGHT);
+	}
+	
+	//DOM variable patch
+	["player1_score_dis","player2_score_dis","player1_image","player2_image","player1_name_dis","player2_name_dis","player1_bomb","player2_bomb","table_game_display","table_game_click","message"].forEach(function(id){
+		eval("var "+id+"=document.getElementById('"+id+"');");
+	});
+
+//initialize
+
+    function Start() {
+		//initialize player data
+		player1_score = 0;
+		player1_score_dis.innerHTML = 0;
+		player2_score = 0;
+		player2_score_dis.innerHTML = 0;
+		player1_name_dis.innerHTML = game_setting.player1_name.value;
+		player2_name_dis.innerHTML = game_setting.player2_name.value;
+		player1_image.src = "image/" + game_setting.player1_img.value + ".jpg";
+		player2_image.src = "image/" + game_setting.player2_img.value + ".jpg";
+		click_func = 0;			//bomb or not
+	
+	
+		//initialize all square = 0(undefined); initialize all square image in table
+		for(i=0; i < TOTAL_SQUARE_WIDTH;i++){
+			for(j=0;j < TOTAL_SQUARE_HEIGHT;j++){
+				square_mine[i][j]=0;
+				square_checked[i][j] = 0;
+			}
+		}
+		
+		for(i=0; i < TOTAL_SQUARE_WIDTH;i++){
+			for(j=0;j < TOTAL_SQUARE_HEIGHT;j++){
+				table_game_display.rows[i].cells[j].innerHTML = "<img src=image/unclick.png border=0>";
+				table_game_click.rows[i].cells[j].innerHTML = "<a href=\"#\" onClick=\"ClickSquare(" + i + "," + j + ", 0)\"><img src=image/alpha.gif border=0></a>";
+			}
+		}
+		
+		//random mine position
+		k=0;
+		while(k < TOTAL_MINES){
+			i = Math.floor( Math.random() * TOTAL_SQUARE_WIDTH );
+			j = Math.floor( Math.random() * TOTAL_SQUARE_HEIGHT );
+			if(square_mine[i][j] == 0){
+				square_mine[i][j] = 1;
+				k++;
+			}
+		}
+		
+		//change idv display
+		setting.style.display = "none";
+		reset_button.style.display = "block";
+		
+		//random select who is the first
+		i = Math.floor( Math.random() * 2 );
+		player_id = i;
+		ChangePlayer();
+		
+	
+	}
+
+	function useBomb() {
+		if(click_func == 0){
+			click_func = 1;
+			if(player_id==0)
+				message.innerHTML = game_setting.player1_name.value + "使用炸彈！";
+			else
+				message.innerHTML = game_setting.player2_name.value + "使用炸彈！";
+		}
+		else if(click_func == 1){
+			click_func = 0;
+			if(player_id==0)
+				message.innerHTML = game_setting.player1_name.value + "取消使用炸彈！";
+			else
+				message.innerHTML = game_setting.player2_name.value + "取消使用炸彈！";
+		}
+	}
+
+	function ClickSquare(x, y) {
+		if(click_func == 1){	//Bomb Click
+			click_func = -1;		//can't use
+			ClickSquare_bomb(x,y);
+		}
+		else		//Normal Click
+			ClickSquare_normal(x,y,0);
+		BombCheck();
+
+	}
+	
+	function BombCheck() {
+		if(click_func == -1){
+			player1_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+			player2_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+		}else if(player1_score > player2_score){
+			player1_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+			if(player_id == 1)
+				player2_bomb.innerHTML = "<a href=\"#\"><img src=\"image/bomb.gif\" onClick=\"useBomb()\" border=0></a>";
+			else
+				player2_bomb.innerHTML = "<img src=\"image/bomb.gif\">";
+		}else if(player1_score < player2_score){
+			player2_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+			if(player_id == 0)
+				player1_bomb.innerHTML = "<a href=\"#\"><img src=\"image/bomb.gif\" onClick=\"useBomb()\" border=0></a>";
+			else
+				player1_bomb.innerHTML = "<img src=\"image/bomb.gif\">";
+		}else{		//player1_score==player2_score
+			player1_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+			player2_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+		}
+	}
+			
+
+	function ClickSquare_bomb(x, y) {
+		var a, b;
+		for(a=x-2; a<=x+2; a++){
+			for(b=y-2; b<=y+2; b++){
+				if(a>=0 && a< TOTAL_SQUARE_WIDTH && b>=0 && b< TOTAL_SQUARE_HEIGHT){		//i, j still in the range of square
+					if(square_checked[a][b] != 1)							//not checked
+						ClickSquare_normal(a,b,1);
+				}
+			}
+		}
+		ChangePlayer();
+		//disable all bomb button (bomb already used)
+	}
+
+
+	function ClickSquare_normal(x, y, extend) {		
+		var a,b;						//local counter
+		var count=0;
+		square_checked[x][y] = 1;				//checked
+		if(square_mine[x][y]==1){				//this square is a mine
+			if(player_id == 0){
+				table_game_display.rows[x].cells[y].innerHTML = "<img src=\"image/mine_p1.png\" border=0>";
+				player1_score ++;
+				player1_score_dis.innerHTML = player1_score;
+				message.innerHTML = game_setting.player1_name.value + "踩到地雷！可再行動一回合！";
+				if( player1_score >= parseInt(parseInt(TOTAL_MINES)/2)+1 )
+					GameSet();
+			}else{
+				table_game_display.rows[x].cells[y].innerHTML = "<img src=\"image/mine_p2.png\" border=0>";
+				player2_score ++;
+				player2_score_dis.innerHTML = player2_score;
+				message.innerHTML = game_setting.player2_name.value + "踩到地雷！可再行動一回合！";
+				if( player2_score >= parseInt(parseInt(TOTAL_MINES)/2)+1 )
+					GameSet();
+			}
+
+
+		}else{							//this square is  not a mine
+			//count number of mines around
+			for(a=x-1; a<=x+1; a++){
+				for(b=y-1; b<=y+1; b++){
+					if(!(a == x && b == y)){											//not this one
+						if(a>=0 && a< TOTAL_SQUARE_WIDTH && b>=0 && b< TOTAL_SQUARE_HEIGHT){			//i, j still in the range of square
+							if(square_mine[a][b] == 1)
+								count++;
+						}
+					}
+				}
+			}
+			if(count==0){		//no mines around, automatically open squares around		
+				for(a=x-1; a<=x+1; a++){
+					for(b=y-1; b<=y+1; b++){
+						if(!(a == x && b == y)){										//not this one
+							if(a>=0 && a< TOTAL_SQUARE_WIDTH && b>=0 && b< TOTAL_SQUARE_HEIGHT){		//i, j still in the range of square
+								if(square_checked[a][b] != 1)							//not checked
+									ClickSquare_normal(a,b,1);
+							}
+						}
+					}
+				}
+
+			}
+			if(extend == 0)			//not "0 mine open squares around"
+				ChangePlayer();
+			table_game_display.rows[x].cells[y].innerHTML = "<img src=\"image/" + count + ".png\" border=0>";
+		}
+		table_game_click.rows[x].cells[y].innerHTML = "<img src=\"image/alpha.gif\" border=0>";
+	}
+
+	function GameSet() {
+		if(player_id == 0){
+			window.alert(game_setting.player1_name.value + "獲勝！");
+			message.innerHTML = game_setting.player1_name.value + "獲勝！";
+		}else{
+			window.alert(game_setting.player2_name.value + "獲勝！");
+			message.innerHTML = game_setting.player2_name.value + "獲勝！";
+		}
+		for(i=0; i < TOTAL_SQUARE_WIDTH;i++){
+			for(j=0;j < TOTAL_SQUARE_HEIGHT;j++){
+				table_game_click.rows[i].cells[j].innerHTML = "<img src=\"image/alpha.gif\" border=0>";
+				if(square_mine[i][j]==1 && square_checked[i][j] == 0)
+					table_game_display.rows[i].cells[j].innerHTML = "<img src=\"image/mine_unfound.png\" border=0>";
+			}
+		}
+	}
+		
+
+	function ChangePlayer() {
+		if(player_id == 0){
+			player_id = 1;
+			message.innerHTML = "輪到" + game_setting.player2_name.value + "行動";
+			p2_arrow_image.src = 'image/arrow.gif';
+			p1_arrow_image.src = 'image/alpha.gif';
+		}
+		else{
+			player_id = 0;
+			message.innerHTML = "輪到" + game_setting.player1_name.value + "行動";
+			p1_arrow_image.src = 'image/arrow.gif';
+			p2_arrow_image.src = 'image/alpha.gif';
+		}
+	}
+
+	function Reset() {
+		for(i=0; i < TOTAL_SQUARE_WIDTH;i++){
+			for(j=0;j < TOTAL_SQUARE_HEIGHT;j++){
+				table_game_click.rows[i].cells[j].innerHTML = "<img src=\"image/alpha.gif\" border=0>";
+			}
+		}
+		player1_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+		player2_bomb.innerHTML = "<img src=\"image/bomb_nouse.gif\">";
+		setting.style.display = "block";
+	}
+
+</script>
+</body>
+</html>
